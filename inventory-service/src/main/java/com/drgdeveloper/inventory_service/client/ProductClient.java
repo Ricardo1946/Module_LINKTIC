@@ -12,14 +12,14 @@ public class ProductClient {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public Map<String, Object> getProductById(UUID productoId) {
-        String url = "http://products-service:8081/**/" + productoId;
+    public Map<String, Object> getProductById(UUID productId) {
+        String url = "http://products-service:8081/app/v1/products/" + productId;
 
         try {
             ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
             return response.getBody();
         } catch (Exception e) {
-            throw new RuntimeException("Producto no encontrado: " + productoId);
+            throw new RuntimeException("Product not found: " + productId);
         }
     }
 
