@@ -1,11 +1,8 @@
 package com.drgdeveloper.inventory_service.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
@@ -18,7 +15,13 @@ import java.util.UUID;
 public class Inventory {
 
     @Id
-    @GeneratedValue
+    // 1. Usamos la anotación de Hibernate para definir el generador
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    // 2. Apuntamos @GeneratedValue a ese generador
+    @GeneratedValue(generator = "UUID")
     private UUID id;
 
     @Column(nullable = false, unique = true)

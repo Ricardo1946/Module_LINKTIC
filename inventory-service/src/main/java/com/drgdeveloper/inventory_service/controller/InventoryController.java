@@ -38,6 +38,4 @@ public class InventoryController {
         Map<String, Object> result = inventoryService.purchase(request);
         return ResponseEntity.ok(new JsonApiResponse(result));
     }
-
-
 }

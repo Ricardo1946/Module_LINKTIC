@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  postgres-db:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: dbProducts
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 8888
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - micro_net
+
+  products-service:
+    build:
+      context: .
+      dockerfile: ./products-service/Dockerfile
+    container_name: products-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/dbProducts
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 8888
+    depends_on:
+      - postgres-db
+    networks:
+      - micro_net
+
+  inventory-service:
+    build:
+      context: .
+      dockerfile: ./inventory-service/Dockerfile
+    container_name: inventory-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/dbInventory
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 8888
+      PRODUCTS_SERVICE_URL: http://products-service:8081/api/products
+    depends_on:
+      - postgres-db
+      - products-service
+    networks:
+      - micro_net
+
+volumes:
+  postgres_data:
+
+networks:
+  micro_net:
+    driver: bridge

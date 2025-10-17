@@ -22,7 +22,7 @@ public class InventoryService {
     }
 
     public Inventory updateStock(UUID productId, int newQuantity) {
-        Inventory inv = inventoryRepository.findByProductoId(productId)
+        Inventory inv = inventoryRepository.findByProductId(productId)
                 .orElseGet(() -> Inventory.builder()
                         .productId(productId)
                         .quantity(0)
@@ -32,14 +32,14 @@ public class InventoryService {
     }
 
     public int getQuantity(UUID productId) {
-        return inventoryRepository.findByProductoId(productId)
+        return inventoryRepository.findByProductId(productId)
                 .map(Inventory::getQuantity)
                 .orElse(0);
     }
 
     public Map<String, Object> purchase(PurchaseRequest request) {
         productClient.getProductById(request.productId());
-        Inventory inv = inventoryRepository.findByProductoId(request.productId())
+        Inventory inv = inventoryRepository.findByProductId(request.productId())
                 .orElseThrow(() -> new RuntimeException("Inventory not found"));
         if (inv.getQuantity() < request.quantity()) {
             throw new RuntimeException("Insufficient inventory");
