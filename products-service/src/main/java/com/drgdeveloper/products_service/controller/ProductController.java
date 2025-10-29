@@ -38,7 +38,7 @@ public class ProductController {
         return ResponseEntity.ok(new JsonApiResponse(productService.findById(id)));
     }
 
-    @GetMapping
+    @GetMapping("/products")
     public ResponseEntity<JsonApiResponse> getAll() {
         return ResponseEntity.ok(new JsonApiResponse(productService.findAll()));
     }

@@ -3,7 +3,6 @@ package com.drgdeveloper.products_service.client;
 import java.util.Map;
 
 public class JsonApiResponse {
-
     private final Map<String, Object> data;
 
     public JsonApiResponse(Object object) {
@@ -16,4 +15,5 @@ public class JsonApiResponse {
     public Map<String, Object> getData() {
         return data;
     }
+
 }
